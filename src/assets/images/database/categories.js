@@ -1,0 +1,1 @@
+export var categoriesData = ["electronics", "jewelery", "men's clothing", "women's clothing"]
