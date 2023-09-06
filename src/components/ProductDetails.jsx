@@ -8,7 +8,7 @@ export default function ProductDetails() {
   let params = useParams()
   const [product, setProduct] = useState({})
 
-  const baseUrl = "https://dummyjson.com/products/"+params.productId;
+  const baseUrl = "https://dummyjson.com/products/"+params.id;
 
   function getProduct() {
         fetch(baseUrl)
