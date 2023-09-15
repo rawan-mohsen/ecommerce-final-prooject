@@ -2,7 +2,7 @@ import { createRef, useEffect, useState } from "react";
 import SiteNav from "../layout/SiteNav";
 import { Container, Row, Col } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
-import { Product } from "../components/Product";
+// import { Product } from "../components/Product";
 import ProductDetails from "../components/ProductDetails";
 import FilterProducts from "../components/FilterProducts";
 import Button from "react-bootstrap/Button";
@@ -13,7 +13,7 @@ import productData from "../assets/images/database/products.json";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import DropdownItem from "react-bootstrap/esm/DropdownItem";
-import { json} from "react-router-dom";
+import { json } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 export default function Products() {
@@ -39,11 +39,15 @@ export default function Products() {
             .then((res) => setCategories(res));
     }
 
-    let FilterProducts = (category) => {
-        fetch(`${baseUrl}/category/${category}`)
-            .then((json) => json.json())
-            .then((res) => setProducts(res.products));
-        setSelectedCategory(category);
+    let productFilter = (category) => {
+        let FilterProducts = [],
+            productCategory = category,
+            allProducts = [];
+        fetch("https://dummyjson.com/products")
+        .then(json => json.json())
+        .then(res => allProducts = res)
+        .then(() => FilterProducts = allProducts.filter((product) => product.category === productCategory))
+        .then(() => setProducts(FilterProducts))
     }
 
     useEffect(() => {
@@ -70,7 +74,7 @@ export default function Products() {
                                             <Dropdown.Item onClick={getProducts}>{selectedCategory}</Dropdown.Item>
                                             {
                                                 categories.map((category, index) =>
-                                                    <Dropdown.Item onClick={() => FilterProducts(category)} key={index}>{category}</Dropdown.Item>
+                                                    <Dropdown.Item onClick={() => productFilter(category)} key={index}>{category}</Dropdown.Item>
                                                 )
                                             }
                                         </DropdownButton>
@@ -87,6 +91,7 @@ export default function Products() {
                                                     </Card.Body>
                                                     <Card.Footer>
                                                         <Link to={`/products/${Product.id}`} className="btn btn-primary">View more</Link>
+                                                        <Button variant="success" className="mx-2">Add to cart</Button>
                                                     </Card.Footer>
                                                 </Card>
                                             </Col>
@@ -98,47 +103,6 @@ export default function Products() {
                                     <span className="visually-hidden">Loading...</span>
                                 </Spinner>
                         }
-                        {/* <Col sm={12}>
-                            <DropdownButton
-                                as={ButtonGroup}
-                                id="dropdown-item-button"
-                                title={selectedCategory}
-                            >
-                                <Dropdown.Item onClick={getProducts}>
-                                    {selectedCategory}
-                                </Dropdown.Item>
-                                {categories.map((category, index) => (
-                                    <Dropdown.Item
-                                        onClick={() => FilterProducts(category)}
-                                        key={index}
-                                    >
-                                        {category}
-                                    </Dropdown.Item>
-                                ))}
-                            </DropdownButton>
-                        </Col> 
-                        {products.length > 0 ? (
-                            <>
-                                <ButtonGroup aria-label="Basic example">
-                                    <Button variant="primary">All</Button>
-                                    {categories.map((category, index) => (
-                                        <Button
-                                            key={index}
-                                            variant="primary"
-                                            ref={btnRef}
-                                            onClick={() => FilterProducts(category)}
-                                        >
-                                            {category}
-                                        </Button>
-                                    ))}
-                                </ButtonGroup>
-                                <ViewProducts products={products} />
-                            </>
-                        ) : (
-                            <Col sm={12}>
-                                <Spinner animation="grow" className="m-4" />
-                            </Col>
-                        )} */}
                     </Row>
                 </Container>
             </div>
