@@ -2,7 +2,7 @@ import { createRef, useEffect, useState } from "react";
 import SiteNav from "../layout/SiteNav";
 import { Container, Row, Col } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
-// import { Product } from "../components/Product";
+import { Product } from "../components/Product";
 import ProductDetails from "../components/ProductDetails";
 import FilterProducts from "../components/FilterProducts";
 import Button from "react-bootstrap/Button";
@@ -40,14 +40,10 @@ export default function Products() {
     }
 
     let productFilter = (category) => {
-        let FilterProducts = [],
-            productCategory = category,
-            allProducts = [];
-        fetch("https://dummyjson.com/products")
-        .then(json => json.json())
-        .then(res => allProducts = res)
-        .then(() => FilterProducts = allProducts.filter((product) => product.category === productCategory))
-        .then(() => setProducts(FilterProducts))
+        fetch(`${baseUrl}/category/${category}`)
+            .then((json) => json.json())
+            .then((res) => setProducts(res.products));
+        setSelectedCategory(category);
     }
 
     useEffect(() => {
@@ -90,8 +86,11 @@ export default function Products() {
                                                         <small className="text-muted">{Product.brand}</small>
                                                     </Card.Body>
                                                     <Card.Footer>
-                                                        <Link to={`/products/${Product.id}`} className="btn btn-primary">View more</Link>
+                                                        <Link to={`./${Product.id}`} className="btn btn-primary">View more</Link>
                                                         <Button variant="success" className="mx-2">Add to cart</Button>
+                                                        <Link to={`.edit/${Product.id}`} variant="danger" className="btn btn-info">Edit</Link>
+                                                        <Button variant="danger" className="mx-2">Delete</Button>
+
                                                     </Card.Footer>
                                                 </Card>
                                             </Col>

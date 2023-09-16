@@ -6,13 +6,14 @@ import Products from "./views/Products";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ProductDetails from "./components/ProductDetails";
+import EditProduct from "./views/EditProduct";
 
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Home />
-  }, 
+  },
   {
     path: '/todo',
     element: <Todo />
@@ -22,8 +23,12 @@ const router = createBrowserRouter([
     element: <Products />
   },
   {
-    path: '/products/:id',
+    path: '/products/:productId',
     element: <ProductDetails />
+  },
+  {
+    path: '/products/edit/:productId',
+    element: <EditProduct />
   },
 ]);
 

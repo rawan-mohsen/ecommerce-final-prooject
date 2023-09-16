@@ -10,7 +10,7 @@ export default function FilterProducts() {
   function getProduct() {
     fetch("https://dummyjson.com/products")
       .then((json) => json.json())
-      .then((res) => setProduct(res.products));
+      .then((res) => setProduct(res));
   }
 
   useEffect(() => {
@@ -21,7 +21,7 @@ export default function FilterProducts() {
     <>
       {
         product.map((product) =>
-          <Col sm={12} md={6} lg={4} key={product.id} className='p-2'>
+          <Col sm={12} md={6} lg={4} key={product.productId} className='p-2'>
             <SingleProduct product={product} />
           </Col>
         )
